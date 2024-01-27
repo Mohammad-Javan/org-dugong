@@ -1,0 +1,61 @@
+{
+  "name": "app-gw",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/app-gw/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/app-gw",
+        "main": "apps/app-gw/src/main.ts",
+        "tsConfig": "apps/app-gw/tsconfig.app.json",
+        "assets": [
+          "apps/app-gw/src/assets"
+        ],
+        "webpackConfig": "apps/app-gw/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "app-gw:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "app-gw:build:development"
+        },
+        "production": {
+          "buildTarget": "app-gw:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": [
+        "{options.outputFile}"
+      ]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "apps/app-gw/jest.config.ts"
+      }
+    }
+  },
+  "tags": []
+}
